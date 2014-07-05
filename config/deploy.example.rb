@@ -40,12 +40,23 @@ set :branch, config['branch'] || 'master'
 before 'deploy:assets:symlink', 'errbit:symlink_configs'
 # if unicorn is started through something like runit (the tool which restarts the process when it's stopped)
 # after 'deploy:restart', 'unicorn:stop'
+after 'deploy:restart'
 
 namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
+  desc 'Start unicorn'
+  task :start, :roles => :app, :except => { :no_release => true } do
+    unicorn_conf = "#{current_path}/config/unicorn.rb"
+    run "cd #{current_path} && bundle exec unicorn_rails -c #{unicorn_conf} -E production -D"
+  end
+
+  desc 'Stop unicorn'
+  task :stop, :roles => :app, :except => { :no_release => true } do
+    run "kill -QUIT #{unicorn_pid}"
+  end
+
+  desc 'Restart unicorn'
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+    run "kill -USR2 #{unicorn_pid}"
   end
 end
 
