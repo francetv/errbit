@@ -1,4 +1,5 @@
-source 'https://rubygems.org'
+#source 'https://rubygems.org'
+source 'http://ruby.taobao.org'
 
 RAILS_VERSION = '~> 3.2.18'
 
