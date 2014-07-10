@@ -72,6 +72,7 @@ gem 'flowdock'
 # ---------------------------------------
 # GitHub OAuth
 gem 'omniauth-github'
+gem 'omniauth-oauth2'
 
 gem 'ri_cal'
 gem 'yajl-ruby', :require => "yajl"
@@ -81,6 +82,7 @@ group :development, :test do
   gem 'webmock', :require => false
   gem 'airbrake', :require => false
   gem 'pry-rails'
+  gem 'pry-nav'
 #  gem 'rpm_contrib'
 #  gem 'newrelic_rpm'
   gem 'quiet_assets'

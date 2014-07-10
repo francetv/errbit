@@ -8,6 +8,7 @@ class User
   field :email
   field :github_login
   field :github_oauth_token
+  field :doorkeeper_oauth_token
   field :name
   field :admin, :type => Boolean, :default => false
   field :per_page, :type => Fixnum, :default => PER_PAGE

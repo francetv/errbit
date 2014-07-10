@@ -225,6 +225,7 @@ Devise.setup do |config|
       :scope => Errbit::Config.github_access_scope.join(','),
       :skip_info => true
   end
+  config.omniauth :doorkeeper, "dfd831972b41caa50febeaf88aa9423a7320aca61c53c67f4cfafc6012c4c003", "b2f3635e6a16fd22d181324d8b436dc19c79ca975703da18e0f2a59763a36164"
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
