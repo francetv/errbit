@@ -48,6 +48,15 @@ class User
     validates_presence_of :username
   end
 
+  def ldap_before_save
+    name = Devise::LDAP::Adapter.get_ldap_param(self.username, "givenName")
+    surname = Devise::LDAP::Adapter.get_ldap_param(self.username, "sn")
+    mail = Devise::LDAP::Adapter.get_ldap_param(self.username, "mail")
+
+    self.name = (name + surname).join ' '
+    self.email = mail.first
+  end
+
   def watchers
     apps.map(&:watchers).flatten.select {|w| w.user_id.to_s == id.to_s}
   end
