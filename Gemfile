@@ -13,6 +13,7 @@ gem 'mongoid', '~> 4.0.0'
 
 gem 'mongoid_rails_migrations'
 gem 'devise'
+gem "devise_ldap_authenticatable", :git => "git://github.com/cschiewek/devise_ldap_authenticatable.git"
 gem 'haml'
 gem 'htmlentities'
 gem 'rack-ssl', :require => 'rack/ssl'   # force SSL
