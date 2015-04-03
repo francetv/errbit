@@ -1,4 +1,5 @@
-source 'https://rubygems.org'
+#source 'https://rubygems.org'
+source 'http://ruby.taobao.org'
 
 RAILS_VERSION = '~> 4.1.8'
 
@@ -54,6 +55,7 @@ gem 'flowdock'
 # ---------------------------------------
 # GitHub OAuth
 gem 'omniauth-github'
+gem 'omniauth-oauth2'
 
 gem 'ri_cal'
 gem 'yajl-ruby', platform: 'ruby'
@@ -63,6 +65,9 @@ group :development, :test do
   gem 'airbrake', :require => false
   gem 'pry-rails'
   gem 'pry-byebug', platforms: [:mri]
+  gem 'pry-nav'
+#  gem 'rpm_contrib'
+#  gem 'newrelic_rpm'
   gem 'quiet_assets'
 end
 

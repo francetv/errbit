@@ -37,6 +37,19 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+  def doorkeeper
+    auth  = request.env["omniauth.auth"]
+
+    user = User.where(email: auth.info.email).first
+    unless user
+      user = User.create(name: auth.info.name, email: auth.info.email)
+      App.each { |app| app.watchers.create user: user }
+    end
+
+    flash[:success] = I18n.t "devise.omniauth_callbacks.success", :kind => "Doordeeper"
+    sign_in_and_redirect user, :event => :authentication
+  end
+
   private
 
   def update_user_with_github_attributes(user, login, token)
@@ -45,4 +58,5 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       :github_oauth_token  => token
     )
   end
+
 end

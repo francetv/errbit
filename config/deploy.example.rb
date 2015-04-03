@@ -4,37 +4,62 @@
 # Copy this file to config/deploy.rb and customize it as needed.
 # Then run `cap errbit:setup` to set up your server and finally
 # `cap deploy` whenever you would like to deploy Errbit. Refer
-# to ./docs/deployment/capistrano.md for more info
+# to the Readme for more information.
 
-# config valid only for current version of Capistrano
-lock '3.4.0'
+config = YAML.load_file('config/config.yml')['deployment'] || {}
 
-set :application, 'errbit'
-set :repo_url, 'https://github.com/errbit/errbit.git'
-set :branch, ENV['branch'] || 'master'
-set :deploy_to, '/var/www/apps/errbit'
-set :keep_releases, 5
+require 'bundler/capistrano'
+load 'deploy/assets'
 
-set :pty, true
-set :ssh_options, forward_agent: true
+set :application, "errbit"
+set :repository,  config['repository']
 
-set :linked_files, fetch(:linked_files, []) + %w(
-  .env
-  config/newrelic.yml
-  config/unicorn.rb
-)
+role :web, config['hosts']['web']
+role :app, config['hosts']['app']
+role :db,  config['hosts']['db'], :primary => true
 
-set :linked_dirs, fetch(:linked_dirs, []) + %w(
-  log
-  tmp/cache tmp/pids tmp/sockets
-  vendor/bundle
-)
+set :user, config['user']
+set :use_sudo, false
+if config.has_key?('ssh_key')
+  set :ssh_options,      { :forward_agent => true, :keys => [ config['ssh_key'] ] }
+else
+  set :ssh_options,      { :forward_agent => true }
+end
+default_run_options[:pty] = true
 
-# check out capistrano-rbenv documentation
-# set :rbenv_type, :system
-# set :rbenv_path, '/usr/local/rbenv'
-# set :rbenv_ruby, File.read(File.expand_path('../../.ruby-version', __FILE__)).strip
-# set :rbenv_roles, :all
+set :deploy_to, config['deploy_to']
+set :deploy_via, :remote_cache
+set :copy_cache, true
+set :copy_exclude, [".git"]
+set :copy_compression, :bz2
+
+set :scm, :git
+set :scm_verbose, true
+set :branch, config['branch'] || 'master'
+
+before 'deploy:assets:symlink', 'errbit:symlink_configs'
+# if unicorn is started through something like runit (the tool which restarts the process when it's stopped)
+# after 'deploy:restart', 'unicorn:stop'
+after 'deploy:restart'
+
+namespace :deploy do
+  desc 'Start unicorn'
+  task :start, :roles => :app, :except => { :no_release => true } do
+    unicorn_conf = "#{current_path}/config/unicorn.rb"
+    run "cd #{current_path} && bundle exec unicorn_rails -c #{unicorn_conf} -E production -D"
+  end
+
+  desc 'Stop unicorn'
+  task :stop, :roles => :app, :except => { :no_release => true } do
+    run "kill -QUIT #{unicorn_pid}"
+  end
+
+  desc 'Restart unicorn'
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    run "kill -USR2 #{unicorn_pid}"
+  end
+end
+>>>>>>> williamhenry/master
 
 namespace :errbit do
   desc "Setup config files (first time setup)"

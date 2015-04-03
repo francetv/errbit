@@ -21,7 +21,7 @@ GIT
     errbit_plugin (0.4.0)
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://ruby.taobao.org/
   specs:
     actionmailer (4.1.8)
       actionpack (= 4.1.8)
@@ -443,9 +443,13 @@ DEPENDENCIES
   mongoid_rails_migrations
   moped (~> 2.0.2)
   omniauth-github
-  pjax_rails
-  poltergeist
   pry-byebug
+  omniauth-oauth2
+  oruen_redmine_client
+  poltergeist
+  pivotal-tracker
+  pjax_rails
+  pry-nav
   pry-rails
   quiet_assets
   rack-ssl
