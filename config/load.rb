@@ -42,6 +42,7 @@ Errbit::Config = Configurator.run({
   smtp_authentication:       ['SMTP_AUTHENTICATION'],
   smtp_user_name:            ['SMTP_USERNAME', 'SENDGRID_USERNAME'],
   smtp_password:             ['SMTP_PASSWORD', 'SENDGRID_PASSWORD'],
+  smtp_enable_starttls_auto: ['SMTP_STARTTLS'],
   smtp_domain:               ['SMTP_DOMAIN', 'SENDGRID_DOMAIN', ->(values) {
     values[:smtp_domain] ||
     (values[:email_from] && values[:email_from].split('@').last)||
