@@ -1,5 +1,4 @@
-#source 'https://rubygems.org'
-source 'http://ruby.taobao.org'
+source 'https://rubygems.org'
 
 RAILS_VERSION = '~> 4.2.5.2'
 
@@ -10,9 +9,6 @@ gem 'actionpack', RAILS_VERSION
 gem 'railties', RAILS_VERSION
 
 gem 'moped', '~> 2.0.2'
-gem 'mongoid', '~> 4.0.0'
-
-gem 'mongoid_rails_migrations'
 gem 'devise', '~> 3.5.5'
 gem 'devise_ldap_authenticatable', :git => "git://github.com/cschiewek/devise_ldap_authenticatable.git"
 gem 'actionmailer_inline_css'
