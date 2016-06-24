@@ -59,6 +59,8 @@ gem 'ri_cal'
 gem 'yajl-ruby', platform: 'ruby'
 gem 'json', platform: 'jruby'
 
+gem 'unicorn'
+
 group :development, :test do
   gem 'airbrake', '~> 4.3.5', require: false
   gem 'pry-rails'
